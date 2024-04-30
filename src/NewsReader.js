@@ -1,12 +1,13 @@
-
+import { exampleQuery ,exampleData } from './data';
 import { QueryForm } from './QueryForm';
 import { Articles } from './Articles';
 import { useState, useEffect } from 'react';
-import { exampleQuery ,exampleData } from './data';
+
 
 export function NewsReader() {
   const [query, setQuery] = useState(exampleQuery); // latest query send to newsapi
   const [data, setData] = useState(exampleData);   // current data returned from newsapi
+  const urlNews="/news";
   const [queryFormObject, setQueryFormObject] = useState({ ...exampleQuery });
 
   useEffect(() => {
@@ -19,7 +20,21 @@ export function NewsReader() {
 
   async function getNews(queryObject) {
     if (queryObject.q) {
-        setData(exampleData);
+      try {
+        const response = await fetch(urlNews, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(queryObject),
+        });
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setData(data);
+      } catch (error) {
+        console.error('Error fetching news:', error);
+      }
     } else {
       setData({});
     }
