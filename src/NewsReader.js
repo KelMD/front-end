@@ -6,8 +6,8 @@ import { useState, useEffect } from 'react';
 import { LoginForm } from './LoginForm';
 
 export function NewsReader() {
-  const [query, setQuery] = useState(exampleQuery); // latest query send to newsapi
-  const [data, setData] = useState(exampleData);   // current data returned from newsapi
+  const [query, setQuery] = useState(exampleQuery); 
+  const [data, setData] = useState(exampleData);   
   const [currentUser, setCurrentUser] = useState(null);
   const [credentials, setCredentials] = useState({ user: "", password: "" })  
   const urlNews="/news";
@@ -23,10 +23,10 @@ export function NewsReader() {
 
   async function login() {
     if (currentUser !== null) {
-      // logout
+      
       setCurrentUser(null);
     } else {
-      // login
+      
       try {
         const response = await fetch(urlUsersAuth, {
           method: 'POST',
